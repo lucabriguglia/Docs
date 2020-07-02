@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Docs.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:Docs.Tests.SampleRequest">
+            <summary>
+            Description for the documentation.
+            </summary>
+        </member>
+        <member name="T:Docs.Tests.SampleTarget">
+            <summary>
+            Description for the documentation.
+            </summary>
+        </member>
+    </members>
+</doc>

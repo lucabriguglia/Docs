@@ -1,7 +1,16 @@
-﻿namespace Docs
+﻿using System.Reflection;
+
+namespace Docs
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IAssemblyScanner
     {
-        void Scan();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="assembly"></param>
+        void Scan(Assembly assembly);
     }
 }
