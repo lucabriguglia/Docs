@@ -1,11 +1,16 @@
-﻿namespace Docs.Tests
+﻿using Docs.DataAnnotations;
+
+namespace Docs.Tests
 {
     /// <summary>
-    /// Description for the documentation.
+    /// Description of SampleTarget.
     /// </summary>
     [DocTarget]
     public class SampleTarget
     {
-
+        /// <summary>
+        /// Description of Name.
+        /// </summary>
+        public string Name { get; set; }
     }
 }

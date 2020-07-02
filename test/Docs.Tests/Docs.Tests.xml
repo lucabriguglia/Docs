@@ -6,12 +6,22 @@
     <members>
         <member name="T:Docs.Tests.SampleRequest">
             <summary>
-            Description for the documentation.
+            Description of SampleRequest.
+            </summary>
+        </member>
+        <member name="P:Docs.Tests.SampleRequest.Name">
+            <summary>
+            Description of Name.
             </summary>
         </member>
         <member name="T:Docs.Tests.SampleTarget">
             <summary>
-            Description for the documentation.
+            Description of SampleTarget.
+            </summary>
+        </member>
+        <member name="P:Docs.Tests.SampleTarget.Name">
+            <summary>
+            Description of Name.
             </summary>
         </member>
     </members>

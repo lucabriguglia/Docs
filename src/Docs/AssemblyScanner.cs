@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml;
+using Docs.DataAnnotations;
+using Docs.Models;
 
 namespace Docs
 {
@@ -21,49 +24,78 @@ namespace Docs
                 documentation.Load(documentationPath);
             }
 
-            if (documentation == null)
-            {
-                throw new Exception();
-            }
+            //if (documentation == null)
+            //{
+            //    throw new Exception();
+            //}
+
+            //var fullName2 = $"M:{memberInfo.DeclaringType.FullName}.{memberInfo.Name}";
+
+            //var parametersString = "";
+            //foreach (var parameterInfo in methodInfo.GetParameters())
+            //{
+            //    if (parametersString.Length > 0)
+            //    {
+            //        parametersString += ",";
+            //    }
+
+            //    parametersString += parameterInfo.ParameterType.FullName;
+            //}
+
+            //if (parametersString.Length > 0)
+            //{
+            //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name + "(" + parametersString + ")");
+            //}
+            //else
+            //{
+            //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name);
+            //}
+
+            var area = new AreaModel(assembly.FullName);
+
+            var targetTypes = new List<Type>();
+            var requestTypes = new List<Type>();
 
             foreach (var type in assembly.GetTypes())
             {
-                var targetAttribute = type.GetCustomAttribute(typeof(DocTargetAttribute));
-                var requestAttribute = type.GetCustomAttribute(typeof(DocRequestAttribute));
-
-                if (targetAttribute == null && requestAttribute == null)
+                if (type.GetCustomAttribute(typeof(DocTargetAttribute)) != null)
                 {
+                    targetTypes.Add(type);
                     continue;
                 }
 
-                if (targetAttribute != null && requestAttribute != null)
+                if (type.GetCustomAttribute(typeof(DocRequestAttribute)) != null)
                 {
-                    throw new Exception();
+                    requestTypes.Add(type);
                 }
+            }
+
+            foreach (var type in targetTypes)
+            {
+                var target = (DocTargetAttribute)type.GetCustomAttribute(typeof(DocTargetAttribute));
 
                 var fullName = $"T:{type.FullName}";
-                var fullName2 = $"T:{type.FullName}.{typeof(DocTargetAttribute).Name}";
 
-                if (documentation["doc"]?["members"]?.SelectSingleNode($"member[@name='{fullName}']") is XmlElement memberElement)
+                var summary = documentation == null
+                    ? $"Documentation file for assembly {assembly.FullName} not found."
+                    : $"Summary for type {type.Name} not found.";
+
+                if (documentation?["doc"]?["members"]?.SelectSingleNode($"member[@name='{fullName}']") is XmlElement memberElement)
                 {
                     var summaryNode = memberElement.SelectSingleNode("summary");
 
                     if (summaryNode != null)
                     {
-                        var summary = summaryNode.InnerText.Trim();
+                        summary = summaryNode.InnerText.Trim();
                     }
                 }
 
-                if (targetAttribute != null)
-                {
-                    var target = (DocTargetAttribute)targetAttribute;
-                }
 
-                if (requestAttribute != null)
-                {
-                    var request = (DocRequestAttribute)requestAttribute;
-                    var target = request.Target;
-                }
+            }
+
+            foreach (var type in requestTypes)
+            {
+
             }
         }
     }
