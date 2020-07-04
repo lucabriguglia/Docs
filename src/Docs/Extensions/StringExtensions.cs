@@ -2,8 +2,16 @@
 
 namespace Docs.Extensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class StringExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string InsertSpaceBeforeUpperCase(this string str)
         {
             var sb = new StringBuilder();

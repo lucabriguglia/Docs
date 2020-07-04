@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Docs.Extensions;
 
 namespace Docs.Models
 {
@@ -14,6 +15,11 @@ namespace Docs.Models
         /// 
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string NormalizedName => Name.InsertSpaceBeforeUpperCase();
 
         /// <summary>
         /// 
@@ -60,7 +66,7 @@ namespace Docs.Models
                 throw new ArgumentNullException(nameof(request));
             }
 
-            if (_requests.Single(x => x.Name == request.Name) == null)
+            if (_requests.FirstOrDefault(x => x.Name == request.Name) == null)
             {
                 _requests.Add(request);
             }

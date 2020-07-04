@@ -48,10 +48,33 @@ namespace Docs.Models
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (_targets.Single(x => x.Name == target.Name) == null)
+            if (_targets.FirstOrDefault(x => x.Name == target.Name) == null)
             {
                 _targets.Add(target);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public void AddRequest(RequestModel request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            var target = _targets.FirstOrDefault(x => x.Name == request.TargetName);
+
+            if (target == null)
+            {
+                throw new ArgumentException(nameof(request));
+            }
+
+            target.AddRequest(request);
         }
     }
 }

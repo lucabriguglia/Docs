@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 using Docs.DataAnnotations;
+using Docs.Extensions;
 using Docs.Models;
 
 namespace Docs
@@ -51,7 +53,7 @@ namespace Docs
             //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name);
             //}
 
-            var area = new AreaModel(assembly.FullName);
+            var areaModel = new AreaModel(assembly.FullName);
 
             var targetTypes = new List<Type>();
             var requestTypes = new List<Type>();
@@ -72,30 +74,23 @@ namespace Docs
 
             foreach (var type in targetTypes)
             {
-                var target = (DocTargetAttribute)type.GetCustomAttribute(typeof(DocTargetAttribute));
+                var summary = documentation.GetSummary(type);
 
-                var fullName = $"T:{type.FullName}";
+                var targetModel = new TargetModel(type.Name, summary);
 
-                var summary = documentation == null
-                    ? $"Documentation file for assembly {assembly.FullName} not found."
-                    : $"Summary for type {type.Name} not found.";
-
-                if (documentation?["doc"]?["members"]?.SelectSingleNode($"member[@name='{fullName}']") is XmlElement memberElement)
-                {
-                    var summaryNode = memberElement.SelectSingleNode("summary");
-
-                    if (summaryNode != null)
-                    {
-                        summary = summaryNode.InnerText.Trim();
-                    }
-                }
-
-
+                areaModel.AddTarget(targetModel);
             }
 
             foreach (var type in requestTypes)
             {
+                var requestAttribute = (DocRequestAttribute)type.GetCustomAttribute(typeof(DocRequestAttribute));
+                var targetType = requestAttribute.Target;
 
+                var summary = documentation.GetSummary(type);
+
+                var requestModel = new RequestModel(type.Name, summary, targetType?.Name);
+
+                areaModel.AddRequest(requestModel);
             }
         }
     }

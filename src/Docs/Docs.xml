@@ -10,6 +10,27 @@
         <member name="M:Docs.AssemblyScanner.Scan(System.Reflection.Assembly)">
             <inheritdoc />
         </member>
+        <member name="T:Docs.DataAnnotations.DocRequestAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.DataAnnotations.DocRequestAttribute.Target">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.DataAnnotations.DocRequestAttribute.#ctor(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="T:Docs.DataAnnotations.DocTargetAttribute">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Docs.Extensions.DocumenationExtensions">
             <summary>
             Utility class to provide documentation for various types where available with the assembly
@@ -86,6 +107,31 @@
             <param name="assembly">The assembly to find the XML document for</param>
             <returns>The XML document</returns>
         </member>
+        <member name="T:Docs.Extensions.StringExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Extensions.StringExtensions.InsertSpaceBeforeUpperCase(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Docs.Extensions.XmlExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Extensions.XmlExtensions.GetSummary(System.Xml.XmlDocument,System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="document"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="T:Docs.IAssemblyScanner">
             <summary>
             
@@ -96,6 +142,111 @@
             
             </summary>
             <param name="assembly"></param>
+        </member>
+        <member name="T:Docs.Models.AreaModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.AreaModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.AreaModel.Targets">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Models.AreaModel.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Docs.Models.AreaModel.AddTarget(Docs.Models.TargetModel)">
+            <summary>
+            
+            </summary>
+            <param name="target"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Docs.Models.AreaModel.AddRequest(Docs.Models.RequestModel)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="T:Docs.Models.RequestModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.RequestModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.RequestModel.Summary">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.RequestModel.TargetName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Models.RequestModel.#ctor(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="summary"></param>
+            <param name="targetName"></param>
+        </member>
+        <member name="T:Docs.Models.TargetModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.TargetModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.TargetModel.NormalizedName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.TargetModel.Summary">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.TargetModel.Requests">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Models.TargetModel.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="summary"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:Docs.Models.TargetModel.AddRequest(Docs.Models.RequestModel)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
     </members>
 </doc>

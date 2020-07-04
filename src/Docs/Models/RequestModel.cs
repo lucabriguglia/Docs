@@ -20,9 +20,15 @@ namespace Docs.Models
         /// <summary>
         /// 
         /// </summary>
+        public string TargetName { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="name"></param>
         /// <param name="summary"></param>
-        public RequestModel(string name, string summary)
+        /// <param name="targetName"></param>
+        public RequestModel(string name, string summary, string targetName)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -34,8 +40,14 @@ namespace Docs.Models
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(summary));
             }
 
+            if (string.IsNullOrWhiteSpace(targetName))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(targetName));
+            }
+
             Name = name;
             Summary = summary;
+            TargetName = targetName;
         }
     }
 }
