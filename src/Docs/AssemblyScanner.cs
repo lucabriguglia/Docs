@@ -16,14 +16,14 @@ namespace Docs
         /// <inheritdoc />
         public void Scan(Assembly assembly)
         {
-            var documentationPath = Path.ChangeExtension(assembly.Location, ".xml");
+            var documentPath = Path.ChangeExtension(assembly.Location, ".xml");
 
-            XmlDocument documentation = null;
+            XmlDocument document = null;
 
-            if (File.Exists(documentationPath))
+            if (File.Exists(documentPath))
             {
-                documentation = new XmlDocument();
-                documentation.Load(documentationPath);
+                document = new XmlDocument();
+                document.Load(documentPath);
             }
 
             //if (documentation == null)
@@ -74,7 +74,7 @@ namespace Docs
 
             foreach (var type in targetTypes)
             {
-                var summary = documentation.GetSummary(type);
+                var summary = document.GetSummaryFor(type);
 
                 var targetModel = new TargetModel(type.Name, summary);
 
@@ -86,7 +86,7 @@ namespace Docs
                 var requestAttribute = (DocRequestAttribute)type.GetCustomAttribute(typeof(DocRequestAttribute));
                 var targetType = requestAttribute.Target;
 
-                var summary = documentation.GetSummary(type);
+                var summary = document.GetSummaryFor(type);
 
                 var requestModel = new RequestModel(type.Name, summary, targetType?.Name);
 
