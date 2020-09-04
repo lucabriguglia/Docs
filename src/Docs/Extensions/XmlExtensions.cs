@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Xml;
 
@@ -30,20 +29,7 @@ namespace Docs.Extensions
 
             var element = document.GetMemberNode("T", type.FullName);
 
-            //var fullName = $"T:{type.FullName}";
-
-            //if (!(document["doc"]?["members"]?.SelectSingleNode($"member[@name='{fullName}']") is XmlElement memberElement))
-            //{
-            //    return string.Empty;
-            //}
-
-            var summary = element.GetTextFor("summary");
-
-            //var summaryNode = memberElement.SelectSingleNode("summary");
-
-            //var summary = summaryNode != null
-            //    ? summaryNode.InnerText.Trim()
-            //    : string.Empty;
+            var summary = element?.GetTextFor("summary");
 
             return !string.IsNullOrWhiteSpace(summary)
                 ? summary
@@ -71,20 +57,7 @@ namespace Docs.Extensions
 
             var element = document.GetMemberNode("M", memberInfo.Name);
 
-            //var fullName = $"M:{memberInfo.Name}";
-
-            //if (!(document["doc"]?["members"]?.SelectSingleNode($"member[@name='{fullName}']") is XmlElement memberElement))
-            //{
-            //    return string.Empty;
-            //}
-
-            var summary = element.GetTextFor("summary");
-
-            //var summaryNode = element.SelectSingleNode("summary");
-
-            //var summary = summaryNode != null
-            //    ? summaryNode.InnerText.Trim()
-            //    : string.Empty;
+            var summary = element?.GetTextFor("summary");
 
             return !string.IsNullOrWhiteSpace(summary)
                 ? summary
@@ -98,6 +71,11 @@ namespace Docs.Extensions
 
         private static string GetTextFor(this XmlElement element, string xpath)
         {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
             var node = element.SelectSingleNode(xpath);
 
             return node != null

@@ -8,7 +8,7 @@ namespace Docs.Models
     /// <summary>
     /// 
     /// </summary>
-    public class AreaModel
+    public class ContextModel
     {
         /// <summary>
         /// 
@@ -26,7 +26,7 @@ namespace Docs.Models
         /// </summary>
         /// <param name="name"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public AreaModel(string name)
+        public ContextModel(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {

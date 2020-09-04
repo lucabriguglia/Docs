@@ -10,87 +10,188 @@ using Docs.Models;
 
 namespace Docs
 {
+    public class Context
+    {
+        public string Name { get; set; }
+        public IList<Target> Targets { get; set; } = new List<Target>();
+
+        public Context(string name, Target target)
+        {
+            Name = name;
+            Targets.Add(target);
+        }
+    }
+
+    public class Target
+    {
+        public string Assembly { get; set; }
+        public Type Type { get; set; }
+
+        public Target(string assembly, Type type)
+        {
+            Assembly = assembly;
+            Type = type;
+        }
+    }
+
+    public class Request
+    {
+        public string Assembly { get; set; }
+        public Type Type { get; set; }
+
+        public Request(string assembly, Type type)
+        {
+            Assembly = assembly;
+            Type = type;
+        }
+    }
+
+    public static class ContextListExtensions
+    {
+        public static IList<Context> Add(this IList<Context> list, string name, Target target)
+        {
+            var context = list.FirstOrDefault(x => x.Name == name);
+
+            if (context != null)
+            {
+                context.Targets.Add(target);
+            }
+            else
+            {
+                list.Add(new Context(name, target));
+            }
+
+            return list;
+        }
+    }
+
     /// <inheritdoc />
     public class AssemblyScanner : IAssemblyScanner
     {
         /// <inheritdoc />
-        public void Scan(Assembly assembly)
+        public void Scan(Assembly[] assemblies)
         {
-            var documentPath = Path.ChangeExtension(assembly.Location, ".xml");
+            var documents = new Dictionary<string, XmlDocument>();
+            var contexts = new List<Context>();
+            var requests = new List<Request>();
 
-            XmlDocument document = null;
-
-            if (File.Exists(documentPath))
+            foreach (var assembly in assemblies)
             {
-                document = new XmlDocument();
-                document.Load(documentPath);
-            }
+                var documentPath = Path.ChangeExtension(assembly.Location, ".xml");
 
-            //if (documentation == null)
-            //{
-            //    throw new Exception();
-            //}
+                XmlDocument document = null;
 
-            //var fullName2 = $"M:{memberInfo.DeclaringType.FullName}.{memberInfo.Name}";
-
-            //var parametersString = "";
-            //foreach (var parameterInfo in methodInfo.GetParameters())
-            //{
-            //    if (parametersString.Length > 0)
-            //    {
-            //        parametersString += ",";
-            //    }
-
-            //    parametersString += parameterInfo.ParameterType.FullName;
-            //}
-
-            //if (parametersString.Length > 0)
-            //{
-            //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name + "(" + parametersString + ")");
-            //}
-            //else
-            //{
-            //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name);
-            //}
-
-            var areaModel = new AreaModel(assembly.FullName);
-
-            var targetTypes = new List<Type>();
-            var requestTypes = new List<Type>();
-
-            foreach (var type in assembly.GetTypes())
-            {
-                if (type.GetCustomAttribute(typeof(DocTargetAttribute)) != null)
+                if (File.Exists(documentPath))
                 {
-                    targetTypes.Add(type);
-                    continue;
+                    document = new XmlDocument();
+                    document.Load(documentPath);
                 }
 
-                if (type.GetCustomAttribute(typeof(DocRequestAttribute)) != null)
+                if (document == null)
                 {
-                    requestTypes.Add(type);
+                    throw new Exception($"No xml document found for assembly {assembly.FullName}. Make sure to generate the xml document when building the project.");
+                }
+
+                documents.Add(assembly.FullName, document);
+
+                //var fullName2 = $"M:{memberInfo.DeclaringType.FullName}.{memberInfo.Name}";
+
+                //var parametersString = "";
+                //foreach (var parameterInfo in methodInfo.GetParameters())
+                //{
+                //    if (parametersString.Length > 0)
+                //    {
+                //        parametersString += ",";
+                //    }
+
+                //    parametersString += parameterInfo.ParameterType.FullName;
+                //}
+
+                //if (parametersString.Length > 0)
+                //{
+                //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name + "(" + parametersString + ")");
+                //}
+                //else
+                //{
+                //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name);
+                //}
+
+
+
+                foreach (var type in assembly.GetTypes())
+                {
+                    if (type.GetCustomAttribute(typeof(DocTargetAttribute)) != null)
+                    {
+                        //var targetAttribute = (DocTargetAttribute)type.GetCustomAttribute(typeof(DocTargetAttribute));
+                        //var targetContext = targetAttribute.Context;
+
+                        //var target = new Target(assembly.FullName, type);
+
+                        //contexts.Add(!string.IsNullOrWhiteSpace(targetContext) ? targetContext : "General", target);
+
+                        var contextModel = new ContextModel(context.Name);
+
+                        foreach (var target in context.Targets)
+                        {
+                            var document = documents.FirstOrDefault(x => x.Key == target.Assembly).Value;
+                            var summary = document.GetSummaryFor(target.Type);
+
+                            var targetModel = new TargetModel(target.Type.Name, summary);
+
+                            contextModel.AddTarget(targetModel);
+                        }
+
+                        continue;
+                    }
+
+                    if (type.GetCustomAttribute(typeof(DocRequestAttribute)) != null)
+                    {
+                        requests.Add(new Request(assembly.FullName, type));
+                    }
                 }
             }
 
-            foreach (var type in targetTypes)
+
+
+            foreach (var context in contexts)
             {
-                var summary = document.GetSummaryFor(type);
+                var contextModel = new ContextModel(context.Name);
+                
+                foreach (var target in context.Targets)
+                {
+                    var document = documents.FirstOrDefault(x => x.Key == target.Assembly).Value;
+                    var summary = document.GetSummaryFor(target.Type);
 
-                var targetModel = new TargetModel(type.Name, summary);
+                    var targetModel = new TargetModel(target.Type.Name, summary);
 
-                areaModel.AddTarget(targetModel);
+                    contextModel.AddTarget(targetModel);
+                }
             }
 
-            foreach (var type in requestTypes)
+            foreach (var request in requests)
             {
-                var requestAttribute = (DocRequestAttribute)type.GetCustomAttribute(typeof(DocRequestAttribute));
+                var requestAttribute = (DocRequestAttribute)request.Type.GetCustomAttribute(typeof(DocRequestAttribute));
                 var targetType = requestAttribute.Target;
 
-                var summary = document.GetSummaryFor(type);
+                var document = documents.FirstOrDefault(x => x.Key == request.Assembly).Value;
+                var summary = document.GetSummaryFor(request.Type);
 
-                var requestModel = new RequestModel(type.Name, summary, targetType?.Name);
+                var requestModel = new RequestModel(request.Type.Name, summary, targetType?.Name);
 
-                areaModel.AddRequest(requestModel);
+
+
+                foreach (var context in contexts)
+                {
+                    foreach (var target in context.Targets)
+                    {
+                        if (target.Type == targetType)
+                        {
+
+                        }
+                    }
+                }
+
+                //contextModel.AddRequest(requestModel);
             }
         }
     }

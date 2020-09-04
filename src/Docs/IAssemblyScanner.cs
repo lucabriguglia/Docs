@@ -10,7 +10,7 @@ namespace Docs
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="assembly"></param>
-        void Scan(Assembly assembly);
+        /// <param name="assemblies"></param>
+        void Scan(Assembly[] assemblies);
     }
 }
