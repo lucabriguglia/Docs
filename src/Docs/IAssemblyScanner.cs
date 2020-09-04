@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using Docs.Models;
 
 namespace Docs
 {
@@ -11,6 +13,6 @@ namespace Docs
         /// 
         /// </summary>
         /// <param name="assemblies"></param>
-        void Scan(Assembly[] assemblies);
+        IList<ContextModel> Scan(Assembly[] assemblies);
     }
 }

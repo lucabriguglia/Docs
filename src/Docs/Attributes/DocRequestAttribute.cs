@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Docs.DataAnnotations
+namespace Docs.Attributes
 {
     /// <summary>
     /// 

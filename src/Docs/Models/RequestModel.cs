@@ -1,4 +1,5 @@
 ﻿using System;
+using Docs.Extensions;
 
 namespace Docs.Models
 {
@@ -11,6 +12,11 @@ namespace Docs.Models
         /// 
         /// </summary>
         public string Name { get;}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string NormalizedName => Name.InsertSpaceBeforeUpperCase();
 
         /// <summary>
         /// 

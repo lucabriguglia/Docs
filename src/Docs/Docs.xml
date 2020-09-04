@@ -7,71 +7,87 @@
         <member name="T:Docs.AssemblyScanner">
             <inheritdoc />
         </member>
-        <member name="M:Docs.AssemblyScanner.Scan(System.Reflection.Assembly)">
+        <member name="M:Docs.AssemblyScanner.Scan(System.Reflection.Assembly[])">
             <inheritdoc />
         </member>
-        <member name="T:Docs.DataAnnotations.DocRequestAttribute">
+        <member name="T:Docs.Attributes.DocRequestAttribute">
             <summary>
             
             </summary>
         </member>
-        <member name="P:Docs.DataAnnotations.DocRequestAttribute.Target">
+        <member name="P:Docs.Attributes.DocRequestAttribute.Target">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Docs.DataAnnotations.DocRequestAttribute.#ctor(System.Type)">
+        <member name="M:Docs.Attributes.DocRequestAttribute.#ctor(System.Type)">
             <summary>
             
             </summary>
             <param name="target"></param>
         </member>
-        <member name="T:Docs.DataAnnotations.DocTargetAttribute">
+        <member name="T:Docs.Attributes.DocTargetAttribute">
             <summary>
             
             </summary>
         </member>
-        <member name="T:Docs.Extensions.DocumenationExtensions">
+        <member name="P:Docs.Attributes.DocTargetAttribute.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Attributes.DocTargetAttribute.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Attributes.DocTargetAttribute.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Docs.Extensions.DocumentationExtensions">
             <summary>
             Utility class to provide documentation for various types where available with the assembly
             </summary>
         </member>
-        <member name="M:Docs.Extensions.DocumenationExtensions.GetDocumentation(System.Reflection.MethodInfo)">
+        <member name="M:Docs.Extensions.DocumentationExtensions.GetDocumentation(System.Reflection.MethodInfo)">
             <summary>
             Provides the documentation comments for a specific method
             </summary>
             <param name="methodInfo">The MethodInfo (reflection data ) of the member to find documentation for</param>
             <returns>The XML fragment describing the method</returns>
         </member>
-        <member name="M:Docs.Extensions.DocumenationExtensions.GetDocumentation(System.Reflection.MemberInfo)">
+        <member name="M:Docs.Extensions.DocumentationExtensions.GetDocumentation(System.Reflection.MemberInfo)">
             <summary>
             Provides the documentation comments for a specific member
             </summary>
             <param name="memberInfo">The MemberInfo (reflection data) or the member to find documentation for</param>
             <returns>The XML fragment describing the member</returns>
         </member>
-        <member name="M:Docs.Extensions.DocumenationExtensions.GetSummary(System.Reflection.MemberInfo)">
+        <member name="M:Docs.Extensions.DocumentationExtensions.GetSummary(System.Reflection.MemberInfo)">
             <summary>
-            Returns the Xml documenation summary comment for this member
+            Returns the Xml documentation summary comment for this member
             </summary>
             <param name="memberInfo"></param>
             <returns></returns>
         </member>
-        <member name="M:Docs.Extensions.DocumenationExtensions.GetDocumentation(System.Type)">
+        <member name="M:Docs.Extensions.DocumentationExtensions.GetDocumentation(System.Type)">
             <summary>
             Provides the documentation comments for a specific type
             </summary>
             <param name="type">Type to find the documentation for</param>
             <returns>The XML fragment that describes the type</returns>
         </member>
-        <member name="M:Docs.Extensions.DocumenationExtensions.GetSummary(System.Type)">
+        <member name="M:Docs.Extensions.DocumentationExtensions.GetSummary(System.Type)">
             <summary>
-            Gets the summary portion of a type's documenation or returns an empty string if not available
+            Gets the summary portion of a type's documentation or returns an empty string if not available
             </summary>
             <param name="type"></param>
             <returns></returns>
         </member>
-        <member name="M:Docs.Extensions.DocumenationExtensions.XmlFromName(System.Type,System.Char,System.String)">
+        <member name="M:Docs.Extensions.DocumentationExtensions.XmlFromName(System.Type,System.Char,System.String)">
             <summary>
             Obtains the XML Element that describes a reflection element by searching the 
             members for a member that has a name that describes the element.
@@ -81,17 +97,17 @@
             <param name="name">Where relevant, the full name qualifier for the element</param>
             <returns>The member that has a name that describes the specified reflection element</returns>
         </member>
-        <member name="F:Docs.Extensions.DocumenationExtensions.Cache">
+        <member name="F:Docs.Extensions.DocumentationExtensions.Cache">
             <summary>
             A cache used to remember Xml documentation for assemblies
             </summary>
         </member>
-        <member name="F:Docs.Extensions.DocumenationExtensions.FailCache">
+        <member name="F:Docs.Extensions.DocumentationExtensions.FailCache">
             <summary>
             A cache used to store failure exceptions for assembly lookups
             </summary>
         </member>
-        <member name="M:Docs.Extensions.DocumenationExtensions.XmlFromAssembly(System.Reflection.Assembly)">
+        <member name="M:Docs.Extensions.DocumentationExtensions.XmlFromAssembly(System.Reflection.Assembly)">
             <summary>
             Obtains the documentation file for the specified assembly
             </summary>
@@ -100,7 +116,7 @@
             <remarks>This version uses a cache to preserve the assemblies, so that 
             the XML file is not loaded and parsed on every single lookup</remarks>
         </member>
-        <member name="M:Docs.Extensions.DocumenationExtensions.XmlFromAssemblyNonCached(System.Reflection.Assembly)">
+        <member name="M:Docs.Extensions.DocumentationExtensions.XmlFromAssemblyNonCached(System.Reflection.Assembly)">
             <summary>
             Loads and parses the documentation file for the specified assembly
             </summary>
@@ -124,7 +140,7 @@
             
             </summary>
         </member>
-        <member name="M:Docs.Extensions.XmlExtensions.GetSummary(System.Xml.XmlDocument,System.Type)">
+        <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Type)">
             <summary>
             
             </summary>
@@ -132,47 +148,56 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Reflection.MemberInfo)">
+            <summary>
+            
+            </summary>
+            <param name="document"></param>
+            <param name="memberInfo"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="T:Docs.IAssemblyScanner">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Docs.IAssemblyScanner.Scan(System.Reflection.Assembly)">
+        <member name="M:Docs.IAssemblyScanner.Scan(System.Reflection.Assembly[])">
             <summary>
             
             </summary>
-            <param name="assembly"></param>
+            <param name="assemblies"></param>
         </member>
-        <member name="T:Docs.Models.AreaModel">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Docs.Models.AreaModel.Name">
+        <member name="T:Docs.Models.ContextModel">
             <summary>
             
             </summary>
         </member>
-        <member name="P:Docs.Models.AreaModel.Targets">
+        <member name="P:Docs.Models.ContextModel.Name">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Docs.Models.AreaModel.#ctor(System.String)">
+        <member name="P:Docs.Models.ContextModel.Targets">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Models.ContextModel.#ctor(System.String)">
             <summary>
             
             </summary>
             <param name="name"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:Docs.Models.AreaModel.AddTarget(Docs.Models.TargetModel)">
+        <member name="M:Docs.Models.ContextModel.AddTarget(Docs.Models.TargetModel)">
             <summary>
             
             </summary>
             <param name="target"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:Docs.Models.AreaModel.AddRequest(Docs.Models.RequestModel)">
+        <member name="M:Docs.Models.ContextModel.AddRequest(Docs.Models.RequestModel)">
             <summary>
             
             </summary>
@@ -186,6 +211,11 @@
             </summary>
         </member>
         <member name="P:Docs.Models.RequestModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Docs.Models.RequestModel.NormalizedName">
             <summary>
             
             </summary>

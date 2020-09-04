@@ -1,4 +1,4 @@
-﻿using Docs.DataAnnotations;
+﻿using Docs.Attributes;
 
 namespace Docs.Tests
 {

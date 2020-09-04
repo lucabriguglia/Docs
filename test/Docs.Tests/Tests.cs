@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using NUnit.Framework;
+#pragma warning disable 1591
 
 namespace Docs.Tests
 {
@@ -11,7 +12,8 @@ namespace Docs.Tests
         {
             var assembleScanner = new AssemblyScanner();
             var assembly = Assembly.GetExecutingAssembly();
-            assembleScanner.Scan(assembly);
+            var actual = assembleScanner.Scan(new []{assembly});
+            Assert.AreEqual(1, actual.Count);
         }
     }
 }

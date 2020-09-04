@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Xml;
 
 namespace Docs.Extensions
@@ -10,7 +9,7 @@ namespace Docs.Extensions
     /// <summary>
     /// Utility class to provide documentation for various types where available with the assembly
     /// </summary>
-    public static class DocumenationExtensions
+    public static class DocumentationExtensions
     {
         /// <summary>
         /// Provides the documentation comments for a specific method
@@ -49,7 +48,7 @@ namespace Docs.Extensions
             return XmlFromName(memberInfo.DeclaringType, memberInfo.MemberType.ToString()[0], memberInfo.Name);
         }
         /// <summary>
-        /// Returns the Xml documenation summary comment for this member
+        /// Returns the Xml documentation summary comment for this member
         /// </summary>
         /// <param name="memberInfo"></param>
         /// <returns></returns>
@@ -73,7 +72,7 @@ namespace Docs.Extensions
         }
 
         /// <summary>
-        /// Gets the summary portion of a type's documenation or returns an empty string if not available
+        /// Gets the summary portion of a type's documentation or returns an empty string if not available
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -135,10 +134,9 @@ namespace Docs.Extensions
 
             try
             {
-
                 if (!Cache.ContainsKey(assembly))
                 {
-                    // load the docuemnt into the cache
+                    // load the document into the cache
                     Cache[assembly] = XmlFromAssemblyNonCached(assembly);
                 }
 
@@ -147,7 +145,7 @@ namespace Docs.Extensions
             catch (Exception exception)
             {
                 FailCache[assembly] = exception;
-                throw exception;
+                throw;
             }
         }
 

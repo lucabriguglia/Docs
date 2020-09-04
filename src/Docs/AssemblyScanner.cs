@@ -4,72 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using Docs.DataAnnotations;
+using Docs.Attributes;
 using Docs.Extensions;
 using Docs.Models;
 
 namespace Docs
 {
-    public class Context
-    {
-        public string Name { get; set; }
-        public IList<Target> Targets { get; set; } = new List<Target>();
-
-        public Context(string name, Target target)
-        {
-            Name = name;
-            Targets.Add(target);
-        }
-    }
-
-    public class Target
-    {
-        public string Assembly { get; set; }
-        public Type Type { get; set; }
-
-        public Target(string assembly, Type type)
-        {
-            Assembly = assembly;
-            Type = type;
-        }
-    }
-
-    public class Request
-    {
-        public string Assembly { get; set; }
-        public Type Type { get; set; }
-
-        public Request(string assembly, Type type)
-        {
-            Assembly = assembly;
-            Type = type;
-        }
-    }
-
-    public static class ContextListExtensions
-    {
-        public static IList<Context> Add(this IList<Context> list, string name, Target target)
-        {
-            var context = list.FirstOrDefault(x => x.Name == name);
-
-            if (context != null)
-            {
-                context.Targets.Add(target);
-            }
-            else
-            {
-                list.Add(new Context(name, target));
-            }
-
-            return list;
-        }
-    }
-
     /// <inheritdoc />
     public class AssemblyScanner : IAssemblyScanner
     {
         /// <inheritdoc />
-        public void Scan(Assembly[] assemblies)
+        public IList<ContextModel> Scan(Assembly[] assemblies)
         {
             var documents = new Dictionary<string, XmlDocument>();
             var contexts = new List<Context>();
@@ -94,51 +39,26 @@ namespace Docs
 
                 documents.Add(assembly.FullName, document);
 
-                //var fullName2 = $"M:{memberInfo.DeclaringType.FullName}.{memberInfo.Name}";
-
-                //var parametersString = "";
-                //foreach (var parameterInfo in methodInfo.GetParameters())
-                //{
-                //    if (parametersString.Length > 0)
-                //    {
-                //        parametersString += ",";
-                //    }
-
-                //    parametersString += parameterInfo.ParameterType.FullName;
-                //}
-
-                //if (parametersString.Length > 0)
-                //{
-                //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name + "(" + parametersString + ")");
-                //}
-                //else
-                //{
-                //    return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name);
-                //}
-
-
-
                 foreach (var type in assembly.GetTypes())
                 {
                     if (type.GetCustomAttribute(typeof(DocTargetAttribute)) != null)
                     {
-                        //var targetAttribute = (DocTargetAttribute)type.GetCustomAttribute(typeof(DocTargetAttribute));
-                        //var targetContext = targetAttribute.Context;
+                        var targetAttribute = (DocTargetAttribute)type.GetCustomAttribute(typeof(DocTargetAttribute));
+                        var targetContext = targetAttribute.Context;
 
-                        //var target = new Target(assembly.FullName, type);
+                        var target = new Target(assembly.FullName, type);
 
-                        //contexts.Add(!string.IsNullOrWhiteSpace(targetContext) ? targetContext : "General", target);
+                        var name = !string.IsNullOrWhiteSpace(targetContext) ? targetContext : "General";
 
-                        var contextModel = new ContextModel(context.Name);
+                        var context = contexts.FirstOrDefault(x => x.Name == name);
 
-                        foreach (var target in context.Targets)
+                        if (context != null)
                         {
-                            var document = documents.FirstOrDefault(x => x.Key == target.Assembly).Value;
-                            var summary = document.GetSummaryFor(target.Type);
-
-                            var targetModel = new TargetModel(target.Type.Name, summary);
-
-                            contextModel.AddTarget(targetModel);
+                            context.Targets.Add(target);
+                        }
+                        else
+                        {
+                            contexts.Add(new Context(name, target));
                         }
 
                         continue;
@@ -151,12 +71,17 @@ namespace Docs
                 }
             }
 
+            return BuildResult(documents, contexts, requests);
+        }
 
+        private static IList<ContextModel> BuildResult(Dictionary<string, XmlDocument> documents, IEnumerable<Context> contexts, IEnumerable<Request> requests)
+        {
+            var result = new List<ContextModel>();
 
             foreach (var context in contexts)
             {
                 var contextModel = new ContextModel(context.Name);
-                
+
                 foreach (var target in context.Targets)
                 {
                     var document = documents.FirstOrDefault(x => x.Key == target.Assembly).Value;
@@ -166,6 +91,8 @@ namespace Docs
 
                     contextModel.AddTarget(targetModel);
                 }
+
+                result.Add(contextModel);
             }
 
             foreach (var request in requests)
@@ -178,20 +105,56 @@ namespace Docs
 
                 var requestModel = new RequestModel(request.Type.Name, summary, targetType?.Name);
 
+                ContextModel contextModel = null;
 
-
-                foreach (var context in contexts)
+                foreach (var context in
+                    from context in result
+                    from target in context.Targets
+                    where target.Name == targetType?.Name
+                    select context)
                 {
-                    foreach (var target in context.Targets)
-                    {
-                        if (target.Type == targetType)
-                        {
-
-                        }
-                    }
+                    contextModel = context;
                 }
 
-                //contextModel.AddRequest(requestModel);
+                contextModel?.AddRequest(requestModel);
+            }
+
+            return result;
+        }
+
+        private class Context
+        {
+            public string Name { get; }
+            public IList<Target> Targets { get; } = new List<Target>();
+
+            public Context(string name, Target target)
+            {
+                Name = name;
+                Targets.Add(target);
+            }
+        }
+
+        private class Target
+        {
+            public string Assembly { get; }
+            public Type Type { get; }
+
+            public Target(string assembly, Type type)
+            {
+                Assembly = assembly;
+                Type = type;
+            }
+        }
+
+        private class Request
+        {
+            public string Assembly { get; }
+            public Type Type { get; }
+
+            public Request(string assembly, Type type)
+            {
+                Assembly = assembly;
+                Type = type;
             }
         }
     }
