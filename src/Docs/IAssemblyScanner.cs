@@ -13,6 +13,6 @@ namespace Docs
         /// 
         /// </summary>
         /// <param name="assemblies"></param>
-        IList<ContextModel> Scan(Assembly[] assemblies);
+        IList<ContextModel> Scan(params Assembly[] assemblies);
     }
 }

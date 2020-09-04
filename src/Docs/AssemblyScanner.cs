@@ -14,7 +14,7 @@ namespace Docs
     public class AssemblyScanner : IAssemblyScanner
     {
         /// <inheritdoc />
-        public IList<ContextModel> Scan(Assembly[] assemblies)
+        public IList<ContextModel> Scan(params Assembly[] assemblies)
         {
             var documents = new Dictionary<string, XmlDocument>();
             var contexts = new List<Context>();

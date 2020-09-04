@@ -47,6 +47,18 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="T:Docs.DocumentationGenerator">
+            <inheritdoc />
+        </member>
+        <member name="M:Docs.DocumentationGenerator.#ctor(Docs.IAssemblyScanner)">
+            <summary>
+            
+            </summary>
+            <param name="assemblyScanner"></param>
+        </member>
+        <member name="M:Docs.DocumentationGenerator.Generate(System.Reflection.Assembly[])">
+            <inheritdoc />
+        </member>
         <member name="T:Docs.Extensions.DocumentationExtensions">
             <summary>
             Utility class to provide documentation for various types where available with the assembly
@@ -163,6 +175,17 @@
             </summary>
         </member>
         <member name="M:Docs.IAssemblyScanner.Scan(System.Reflection.Assembly[])">
+            <summary>
+            
+            </summary>
+            <param name="assemblies"></param>
+        </member>
+        <member name="T:Docs.IDocumentationGenerator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.IDocumentationGenerator.Generate(System.Reflection.Assembly[])">
             <summary>
             
             </summary>
