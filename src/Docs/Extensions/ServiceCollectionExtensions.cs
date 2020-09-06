@@ -19,7 +19,7 @@ namespace Docs.Extensions
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            services.AddTransient<IDocumentationGenerator, DocumentationGenerator>();
+            services.AddTransient<IDocumentationService, DocumentationService>();
             services.AddTransient<IAssemblyScanner, AssemblyScanner>();
 
             return services;

@@ -4,32 +4,40 @@ using Docs.Extensions;
 namespace Docs.Models
 {
     /// <summary>
-    /// 
+    /// RequestModel
     /// </summary>
     public class RequestModel
     {
         /// <summary>
-        /// 
+        /// Name
         /// </summary>
-        public string Name { get;}
+        public string Name { get; set; }
 
         /// <summary>
-        /// 
+        /// NormalizedName
         /// </summary>
         public string NormalizedName => Name.InsertSpaceBeforeUpperCase();
 
         /// <summary>
-        /// 
+        /// Summary
         /// </summary>
-        public string Summary { get; }
+        public string Summary { get; set; }
 
         /// <summary>
-        /// 
+        /// TargetName
         /// </summary>
-        public string TargetName { get; }
+        public string TargetName { get; set; }
 
         /// <summary>
-        /// 
+        /// RequestModel
+        /// </summary>
+        public RequestModel()
+        {
+            
+        }
+
+        /// <summary>
+        /// RequestModel
         /// </summary>
         /// <param name="name"></param>
         /// <param name="summary"></param>

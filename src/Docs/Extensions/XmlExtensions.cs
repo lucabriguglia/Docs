@@ -10,63 +10,76 @@ namespace Docs.Extensions
     public static class XmlExtensions
     {
         /// <summary>
-        /// 
+        /// Get summary for type.
         /// </summary>
         /// <param name="document"></param>
         /// <param name="type"></param>
         /// <returns></returns>
         public static string GetSummaryFor(this XmlDocument document, Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            if (document == null)
-            {
-                return $"Documentation file for assembly {type.Assembly.FullName} not found.";
-            }
-
             var element = document.GetMemberNode("T", type.FullName);
-
-            var summary = element?.GetTextFor("summary");
-
-            return !string.IsNullOrWhiteSpace(summary)
-                ? summary
-                : $"Summary for type {type.Name} not found.";
+            return element.GetSummary();
         }
 
         /// <summary>
-        /// 
+        /// Get summary for member info.
         /// </summary>
         /// <param name="document"></param>
         /// <param name="memberInfo"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
         public static string GetSummaryFor(this XmlDocument document, MemberInfo memberInfo)
         {
-            if (memberInfo?.DeclaringType == null)
-            {
-                throw new ArgumentNullException(nameof(memberInfo));
-            }
-
-            if (document == null)
-            {
-                return $"Documentation file for assembly {memberInfo.DeclaringType.Assembly.FullName} not found.";
-            }
-
             var element = document.GetMemberNode("M", memberInfo.Name);
+            return element.GetSummary();
+        }
 
-            var summary = element?.GetTextFor("summary");
+        /// <summary>
+        /// Get summary for method info.
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="methodInfo"></param>
+        /// <returns></returns>
+        public static string GetSummaryFor(this XmlDocument document, MethodInfo methodInfo)
+        {
+            var parameters = string.Empty;
 
-            return !string.IsNullOrWhiteSpace(summary)
-                ? summary
-                : $"Summary for member {memberInfo.Name} not found.";
+            foreach (var parameterInfo in methodInfo.GetParameters())
+            {
+                if (parameters.Length > 0)
+                {
+                    parameters += ",";
+                }
+
+                parameters += parameterInfo.ParameterType.FullName;
+            }
+
+            var name = parameters.Length > 0 ? $"{methodInfo.Name}({parameters})" : methodInfo.Name;
+            var element = document.GetMemberNode("M", name);
+
+            return element.GetSummary();
+        }
+
+        /// <summary>
+        /// Get summary for property info.
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="propertyInfo"></param>
+        /// <returns></returns>
+        public static string GetSummaryFor(this XmlDocument document, PropertyInfo propertyInfo)
+        {
+            var element = document.GetMemberNode("P", propertyInfo.Name);
+            return element.GetSummary();
         }
 
         private static XmlElement GetMemberNode(this XmlDocument document, string prefix, string name)
         {
             return document["doc"]?["members"]?.SelectSingleNode($"member[@name='{prefix}:{name}']") as XmlElement;
+        }
+
+        private static string GetSummary(this XmlElement element)
+        {
+            var summary = element?.GetTextFor("summary");
+            return !string.IsNullOrWhiteSpace(summary) ? summary : "Summary not found.";
         }
 
         private static string GetTextFor(this XmlElement element, string xpath)

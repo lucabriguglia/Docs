@@ -6,23 +6,30 @@ using System.Linq;
 namespace Docs.Models
 {
     /// <summary>
-    /// 
+    /// ContextModel
     /// </summary>
     public class ContextModel
     {
         /// <summary>
-        /// 
+        /// Name
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// 
+        /// Targets
         /// </summary>
-        public ReadOnlyCollection<TargetModel> Targets => _targets.AsReadOnly();
-        private readonly List<TargetModel> _targets = new List<TargetModel>();
+        public List<TargetModel> Targets { get; set; } = new List<TargetModel>();
 
         /// <summary>
-        /// 
+        /// ContextModel
+        /// </summary>
+        public ContextModel()
+        {
+            
+        }
+
+        /// <summary>
+        /// ContextModel
         /// </summary>
         /// <param name="name"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -37,7 +44,7 @@ namespace Docs.Models
         }
 
         /// <summary>
-        /// 
+        /// AddTarget
         /// </summary>
         /// <param name="target"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -48,14 +55,14 @@ namespace Docs.Models
                 throw new ArgumentNullException(nameof(target));
             }
 
-            if (_targets.FirstOrDefault(x => x.Name == target.Name) == null)
+            if (Targets.FirstOrDefault(x => x.Name == target.Name) == null)
             {
-                _targets.Add(target);
+                Targets.Add(target);
             }
         }
 
         /// <summary>
-        /// 
+        /// AddRequest
         /// </summary>
         /// <param name="request"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -67,7 +74,7 @@ namespace Docs.Models
                 throw new ArgumentNullException(nameof(request));
             }
 
-            var target = _targets.FirstOrDefault(x => x.Name == request.TargetName);
+            var target = Targets.FirstOrDefault(x => x.Name == request.TargetName);
 
             if (target == null)
             {

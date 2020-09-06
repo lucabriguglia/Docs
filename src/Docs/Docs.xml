@@ -47,16 +47,22 @@
             </summary>
             <param name="context"></param>
         </member>
-        <member name="T:Docs.DocumentationGenerator">
+        <member name="T:Docs.DocumentationService">
             <inheritdoc />
         </member>
-        <member name="M:Docs.DocumentationGenerator.#ctor(Docs.IAssemblyScanner)">
+        <member name="M:Docs.DocumentationService.#ctor(Docs.IAssemblyScanner)">
             <summary>
             
             </summary>
             <param name="assemblyScanner"></param>
         </member>
-        <member name="M:Docs.DocumentationGenerator.Generate(System.Reflection.Assembly[])">
+        <member name="M:Docs.DocumentationService.Generate(System.Reflection.Assembly[])">
+            <inheritdoc />
+        </member>
+        <member name="M:Docs.DocumentationService.GetLatestAsJson">
+            <inheritdoc />
+        </member>
+        <member name="M:Docs.DocumentationService.GetLatest">
             <inheritdoc />
         </member>
         <member name="T:Docs.Extensions.DocumentationExtensions">
@@ -135,6 +141,19 @@
             <param name="assembly">The assembly to find the XML document for</param>
             <returns>The XML document</returns>
         </member>
+        <member name="T:Docs.Extensions.ServiceCollectionExtensions">
+            <summary>
+            ServiceCollectionExtensions
+            </summary>
+        </member>
+        <member name="M:Docs.Extensions.ServiceCollectionExtensions.AddDocs(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add Docs
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="T:Docs.Extensions.StringExtensions">
             <summary>
             
@@ -171,91 +190,146 @@
         </member>
         <member name="T:Docs.IAssemblyScanner">
             <summary>
-            
+            IAssemblyScanner
             </summary>
         </member>
         <member name="M:Docs.IAssemblyScanner.Scan(System.Reflection.Assembly[])">
             <summary>
-            
+            Scan
             </summary>
             <param name="assemblies"></param>
         </member>
-        <member name="T:Docs.IDocumentationGenerator">
+        <member name="T:Docs.IDocumentationService">
             <summary>
-            
+            IDocumentationService
             </summary>
         </member>
-        <member name="M:Docs.IDocumentationGenerator.Generate(System.Reflection.Assembly[])">
+        <member name="M:Docs.IDocumentationService.Generate(System.Reflection.Assembly[])">
             <summary>
-            
+            Generate
             </summary>
             <param name="assemblies"></param>
+        </member>
+        <member name="M:Docs.IDocumentationService.GetLatestAsJson">
+            <summary>
+            GetLatestAsJson
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Docs.IDocumentationService.GetLatest">
+            <summary>
+            GetLatest
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Docs.Models.ContextModel">
             <summary>
-            
+            ContextModel
             </summary>
         </member>
         <member name="P:Docs.Models.ContextModel.Name">
             <summary>
-            
+            Name
             </summary>
         </member>
         <member name="P:Docs.Models.ContextModel.Targets">
             <summary>
-            
+            Targets
+            </summary>
+        </member>
+        <member name="M:Docs.Models.ContextModel.#ctor">
+            <summary>
+            ContextModel
             </summary>
         </member>
         <member name="M:Docs.Models.ContextModel.#ctor(System.String)">
             <summary>
-            
+            ContextModel
             </summary>
             <param name="name"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:Docs.Models.ContextModel.AddTarget(Docs.Models.TargetModel)">
             <summary>
-            
+            AddTarget
             </summary>
             <param name="target"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:Docs.Models.ContextModel.AddRequest(Docs.Models.RequestModel)">
             <summary>
-            
+            AddRequest
             </summary>
             <param name="request"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
+        <member name="T:Docs.Models.DocumentationModel">
+            <summary>
+            DocumentationModel
+            </summary>
+        </member>
+        <member name="P:Docs.Models.DocumentationModel.Contexts">
+            <summary>
+            Documentation contexts.
+            </summary>
+        </member>
+        <member name="P:Docs.Models.DocumentationModel.TimeStamp">
+            <summary>
+            Date of documentation creation (UTC).
+            </summary>
+        </member>
+        <member name="P:Docs.Models.DocumentationModel.ElapsedTime">
+            <summary>
+            Total elapsed time in milliseconds for the documentation creation.
+            </summary>
+        </member>
+        <member name="M:Docs.Models.DocumentationModel.#ctor">
+            <summary>
+            DocumentationModel
+            </summary>
+        </member>
+        <member name="M:Docs.Models.DocumentationModel.#ctor(System.Collections.Generic.List{Docs.Models.ContextModel},System.DateTime,System.Int64)">
+            <summary>
+            DocumentationModel
+            </summary>
+            <param name="contexts"></param>
+            <param name="timeStamp"></param>
+            <param name="elapsedTime"></param>
+        </member>
         <member name="T:Docs.Models.RequestModel">
             <summary>
-            
+            RequestModel
             </summary>
         </member>
         <member name="P:Docs.Models.RequestModel.Name">
             <summary>
-            
+            Name
             </summary>
         </member>
         <member name="P:Docs.Models.RequestModel.NormalizedName">
             <summary>
-            
+            NormalizedName
             </summary>
         </member>
         <member name="P:Docs.Models.RequestModel.Summary">
             <summary>
-            
+            Summary
             </summary>
         </member>
         <member name="P:Docs.Models.RequestModel.TargetName">
             <summary>
-            
+            TargetName
+            </summary>
+        </member>
+        <member name="M:Docs.Models.RequestModel.#ctor">
+            <summary>
+            RequestModel
             </summary>
         </member>
         <member name="M:Docs.Models.RequestModel.#ctor(System.String,System.String,System.String)">
             <summary>
-            
+            RequestModel
             </summary>
             <param name="name"></param>
             <param name="summary"></param>
@@ -263,32 +337,37 @@
         </member>
         <member name="T:Docs.Models.TargetModel">
             <summary>
-            
+            TargetModel
             </summary>
         </member>
         <member name="P:Docs.Models.TargetModel.Name">
             <summary>
-            
+            Name
             </summary>
         </member>
         <member name="P:Docs.Models.TargetModel.NormalizedName">
             <summary>
-            
+            NormalizedName
             </summary>
         </member>
         <member name="P:Docs.Models.TargetModel.Summary">
             <summary>
-            
+            Summary
             </summary>
         </member>
         <member name="P:Docs.Models.TargetModel.Requests">
             <summary>
-            
+            Requests
+            </summary>
+        </member>
+        <member name="M:Docs.Models.TargetModel.#ctor">
+            <summary>
+            TargetModel
             </summary>
         </member>
         <member name="M:Docs.Models.TargetModel.#ctor(System.String,System.String)">
             <summary>
-            
+            TargetModel
             </summary>
             <param name="name"></param>
             <param name="summary"></param>
@@ -296,7 +375,7 @@
         </member>
         <member name="M:Docs.Models.TargetModel.AddRequest(Docs.Models.RequestModel)">
             <summary>
-            
+            AddRequest
             </summary>
             <param name="request"></param>
             <exception cref="T:System.ArgumentNullException"></exception>

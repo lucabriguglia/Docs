@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using Docs.Models;
 
 namespace Docs
 {
     /// <summary>
-    /// 
+    /// IAssemblyScanner
     /// </summary>
     public interface IAssemblyScanner
     {
         /// <summary>
-        /// 
+        /// Scan
         /// </summary>
         /// <param name="assemblies"></param>
-        IList<ContextModel> Scan(params Assembly[] assemblies);
+        DocumentationModel Scan(params Assembly[] assemblies);
     }
 }

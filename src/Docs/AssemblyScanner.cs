@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,8 +15,11 @@ namespace Docs
     public class AssemblyScanner : IAssemblyScanner
     {
         /// <inheritdoc />
-        public IList<ContextModel> Scan(params Assembly[] assemblies)
+        public DocumentationModel Scan(params Assembly[] assemblies)
         {
+            var watch = new Stopwatch();
+            watch.Start();
+
             var documents = new Dictionary<string, XmlDocument>();
             var contexts = new List<Context>();
             var requests = new List<Request>();
@@ -71,14 +75,18 @@ namespace Docs
                 }
             }
 
-            return BuildResult(documents, contexts, requests);
+            var data = BuildData(documents, contexts, requests);
+
+            watch.Stop();
+
+            return new DocumentationModel(data, DateTime.UtcNow, watch.ElapsedMilliseconds);
         }
 
-        private static IList<ContextModel> BuildResult(Dictionary<string, XmlDocument> documents, IEnumerable<Context> contexts, IEnumerable<Request> requests)
+        private static List<ContextModel> BuildData(Dictionary<string, XmlDocument> documents, IEnumerable<Context> contexts, IEnumerable<Request> requests)
         {
             var result = new List<ContextModel>();
 
-            foreach (var context in contexts)
+            foreach (var context in contexts.OrderBy(x => x.Name))
             {
                 var contextModel = new ContextModel(context.Name);
 
@@ -91,6 +99,8 @@ namespace Docs
 
                     contextModel.AddTarget(targetModel);
                 }
+
+                contextModel.Targets = contextModel.Targets.OrderBy(x => x.Name).ToList();
 
                 result.Add(contextModel);
             }
@@ -117,6 +127,11 @@ namespace Docs
                 }
 
                 contextModel?.AddRequest(requestModel);
+            }
+
+            foreach (var target in result.SelectMany(context => context.Targets))
+            {
+                target.Requests = target.Requests.OrderBy(x => x.Name).ToList();
             }
 
             return result;

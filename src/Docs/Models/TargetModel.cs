@@ -1,39 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Docs.Extensions;
 
 namespace Docs.Models
 {
     /// <summary>
-    /// 
+    /// TargetModel
     /// </summary>
     public class TargetModel
     {
         /// <summary>
-        /// 
+        /// Name
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// 
+        /// NormalizedName
         /// </summary>
         public string NormalizedName => Name.InsertSpaceBeforeUpperCase();
 
         /// <summary>
-        /// 
+        /// Summary
         /// </summary>
-        public string Summary { get; }
+        public string Summary { get; set; }
 
         /// <summary>
-        /// 
+        /// Requests
         /// </summary>
-        public ReadOnlyCollection<RequestModel> Requests => _requests.AsReadOnly();
-        private readonly List<RequestModel> _requests = new List<RequestModel>();
+        public List<RequestModel> Requests { get; set; } = new List<RequestModel>();
 
         /// <summary>
-        /// 
+        /// TargetModel
+        /// </summary>
+        public TargetModel()
+        {
+            
+        }
+
+        /// <summary>
+        /// TargetModel
         /// </summary>
         /// <param name="name"></param>
         /// <param name="summary"></param>
@@ -55,7 +61,7 @@ namespace Docs.Models
         }
 
         /// <summary>
-        /// 
+        /// AddRequest
         /// </summary>
         /// <param name="request"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -66,9 +72,9 @@ namespace Docs.Models
                 throw new ArgumentNullException(nameof(request));
             }
 
-            if (_requests.FirstOrDefault(x => x.Name == request.Name) == null)
+            if (Requests.FirstOrDefault(x => x.Name == request.Name) == null)
             {
-                _requests.Add(request);
+                Requests.Add(request);
             }
         }
     }
