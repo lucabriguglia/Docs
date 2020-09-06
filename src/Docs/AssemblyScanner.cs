@@ -95,8 +95,8 @@ namespace Docs
                     var document = documents.FirstOrDefault(x => x.Key == target.Assembly).Value;
                     var summary = document.GetSummaryFor(target.Type);
 
-                    var targetModel = new TargetModel(target.Type.Name, summary);
-
+                    var targetModel = new TargetModel(target.Type.Name, summary, target.Type, document);
+                    
                     contextModel.AddTarget(targetModel);
                 }
 
@@ -113,7 +113,7 @@ namespace Docs
                 var document = documents.FirstOrDefault(x => x.Key == request.Assembly).Value;
                 var summary = document.GetSummaryFor(request.Type);
 
-                var requestModel = new RequestModel(request.Type.Name, summary, targetType?.Name);
+                var requestModel = new RequestModel(request.Type.Name, summary, request.Type, document, targetType?.Name);
 
                 ContextModel contextModel = null;
 

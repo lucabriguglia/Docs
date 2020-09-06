@@ -173,7 +173,7 @@
         </member>
         <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Type)">
             <summary>
-            
+            Get summary for type.
             </summary>
             <param name="document"></param>
             <param name="type"></param>
@@ -181,12 +181,27 @@
         </member>
         <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Reflection.MemberInfo)">
             <summary>
-            
+            Get summary for member info.
             </summary>
             <param name="document"></param>
             <param name="memberInfo"></param>
             <returns></returns>
-            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Reflection.MethodInfo)">
+            <summary>
+            Get summary for method info.
+            </summary>
+            <param name="document"></param>
+            <param name="methodInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Reflection.PropertyInfo)">
+            <summary>
+            Get summary for property info.
+            </summary>
+            <param name="document"></param>
+            <param name="propertyInfo"></param>
+            <returns></returns>
         </member>
         <member name="T:Docs.IAssemblyScanner">
             <summary>
@@ -297,24 +312,126 @@
             <param name="timeStamp"></param>
             <param name="elapsedTime"></param>
         </member>
-        <member name="T:Docs.Models.RequestModel">
+        <member name="T:Docs.Models.MemberModelBase">
             <summary>
-            RequestModel
+            MemberModelBase
             </summary>
         </member>
-        <member name="P:Docs.Models.RequestModel.Name">
+        <member name="P:Docs.Models.MemberModelBase.Properties">
+            <summary>
+            Properties
+            </summary>
+        </member>
+        <member name="P:Docs.Models.MemberModelBase.Methods">
+            <summary>
+            Methods
+            </summary>
+        </member>
+        <member name="M:Docs.Models.MemberModelBase.#ctor">
+            <summary>
+            MemberModelBase
+            </summary>
+        </member>
+        <member name="M:Docs.Models.MemberModelBase.#ctor(System.String,System.String,System.Type,System.Xml.XmlDocument)">
+            <summary>
+            MemberModelBase
+            </summary>
+            <param name="name"></param>
+            <param name="summary"></param>
+            <param name="type"></param>
+            <param name="document"></param>
+        </member>
+        <member name="M:Docs.Models.MemberModelBase.AddInfo(System.Type,System.Xml.XmlDocument)">
+            <summary>
+            AddInfo
+            </summary>
+            <param name="type"></param>
+            <param name="document"></param>
+        </member>
+        <member name="M:Docs.Models.MemberModelBase.AddProperty(Docs.Models.PropertyModel)">
+            <summary>
+            AddProperty
+            </summary>
+            <param name="property"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Docs.Models.MemberModelBase.AddMethod(Docs.Models.MethodModel)">
+            <summary>
+            AddMethod
+            </summary>
+            <param name="method"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Docs.Models.MethodModel">
+            <summary>
+            MethodModel
+            </summary>
+        </member>
+        <member name="M:Docs.Models.MethodModel.#ctor">
+            <summary>
+            MethodModel
+            </summary>
+        </member>
+        <member name="M:Docs.Models.MethodModel.#ctor(System.String,System.String)">
+            <summary>
+            MethodModel
+            </summary>
+            <param name="name"></param>
+            <param name="summary"></param>
+        </member>
+        <member name="T:Docs.Models.ModelBase">
+            <summary>
+            ModelBase
+            </summary>
+        </member>
+        <member name="P:Docs.Models.ModelBase.Name">
             <summary>
             Name
             </summary>
         </member>
-        <member name="P:Docs.Models.RequestModel.NormalizedName">
+        <member name="P:Docs.Models.ModelBase.NormalizedName">
             <summary>
             NormalizedName
             </summary>
         </member>
-        <member name="P:Docs.Models.RequestModel.Summary">
+        <member name="P:Docs.Models.ModelBase.Summary">
             <summary>
             Summary
+            </summary>
+        </member>
+        <member name="M:Docs.Models.ModelBase.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Docs.Models.ModelBase.#ctor(System.String,System.String)">
+            <summary>
+            ModelBase
+            </summary>
+            <param name="name"></param>
+            <param name="summary"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="T:Docs.Models.PropertyModel">
+            <summary>
+            PropertyModel
+            </summary>
+        </member>
+        <member name="M:Docs.Models.PropertyModel.#ctor">
+            <summary>
+            PropertyModel
+            </summary>
+        </member>
+        <member name="M:Docs.Models.PropertyModel.#ctor(System.String,System.String)">
+            <summary>
+            PropertyModel
+            </summary>
+            <param name="name"></param>
+            <param name="summary"></param>
+        </member>
+        <member name="T:Docs.Models.RequestModel">
+            <summary>
+            RequestModel
             </summary>
         </member>
         <member name="P:Docs.Models.RequestModel.TargetName">
@@ -327,32 +444,19 @@
             RequestModel
             </summary>
         </member>
-        <member name="M:Docs.Models.RequestModel.#ctor(System.String,System.String,System.String)">
+        <member name="M:Docs.Models.RequestModel.#ctor(System.String,System.String,System.Type,System.Xml.XmlDocument,System.String)">
             <summary>
             RequestModel
             </summary>
             <param name="name"></param>
             <param name="summary"></param>
+            <param name="document"></param>
             <param name="targetName"></param>
+            <param name="type"></param>
         </member>
         <member name="T:Docs.Models.TargetModel">
             <summary>
             TargetModel
-            </summary>
-        </member>
-        <member name="P:Docs.Models.TargetModel.Name">
-            <summary>
-            Name
-            </summary>
-        </member>
-        <member name="P:Docs.Models.TargetModel.NormalizedName">
-            <summary>
-            NormalizedName
-            </summary>
-        </member>
-        <member name="P:Docs.Models.TargetModel.Summary">
-            <summary>
-            Summary
             </summary>
         </member>
         <member name="P:Docs.Models.TargetModel.Requests">
@@ -365,12 +469,14 @@
             TargetModel
             </summary>
         </member>
-        <member name="M:Docs.Models.TargetModel.#ctor(System.String,System.String)">
+        <member name="M:Docs.Models.TargetModel.#ctor(System.String,System.String,System.Type,System.Xml.XmlDocument)">
             <summary>
             TargetModel
             </summary>
             <param name="name"></param>
             <param name="summary"></param>
+            <param name="type"></param>
+            <param name="document"></param>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:Docs.Models.TargetModel.AddRequest(Docs.Models.RequestModel)">

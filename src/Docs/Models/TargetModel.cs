@@ -1,30 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Docs.Extensions;
+using System.Xml;
 
 namespace Docs.Models
 {
     /// <summary>
     /// TargetModel
     /// </summary>
-    public class TargetModel
+    public class TargetModel : MemberModelBase
     {
-        /// <summary>
-        /// Name
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// NormalizedName
-        /// </summary>
-        public string NormalizedName => Name.InsertSpaceBeforeUpperCase();
-
-        /// <summary>
-        /// Summary
-        /// </summary>
-        public string Summary { get; set; }
-
         /// <summary>
         /// Requests
         /// </summary>
@@ -35,7 +20,6 @@ namespace Docs.Models
         /// </summary>
         public TargetModel()
         {
-            
         }
 
         /// <summary>
@@ -43,21 +27,11 @@ namespace Docs.Models
         /// </summary>
         /// <param name="name"></param>
         /// <param name="summary"></param>
+        /// <param name="type"></param>
+        /// <param name="document"></param>
         /// <exception cref="ArgumentException"></exception>
-        public TargetModel(string name, string summary)
+        public TargetModel(string name, string summary, Type type, XmlDocument document) : base(name, summary, type, document)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
-            }
-
-            if (string.IsNullOrWhiteSpace(summary))
-            {
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(summary));
-            }
-
-            Name = name;
-            Summary = summary;
         }
 
         /// <summary>

@@ -1,28 +1,13 @@
 ﻿using System;
-using Docs.Extensions;
+using System.Xml;
 
 namespace Docs.Models
 {
     /// <summary>
     /// RequestModel
     /// </summary>
-    public class RequestModel
+    public class RequestModel : MemberModelBase
     {
-        /// <summary>
-        /// Name
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// NormalizedName
-        /// </summary>
-        public string NormalizedName => Name.InsertSpaceBeforeUpperCase();
-
-        /// <summary>
-        /// Summary
-        /// </summary>
-        public string Summary { get; set; }
-
         /// <summary>
         /// TargetName
         /// </summary>
@@ -33,7 +18,6 @@ namespace Docs.Models
         /// </summary>
         public RequestModel()
         {
-            
         }
 
         /// <summary>
@@ -41,26 +25,16 @@ namespace Docs.Models
         /// </summary>
         /// <param name="name"></param>
         /// <param name="summary"></param>
+        /// <param name="document"></param>
         /// <param name="targetName"></param>
-        public RequestModel(string name, string summary, string targetName)
+        /// <param name="type"></param>
+        public RequestModel(string name, string summary, Type type, XmlDocument document, string targetName) : base(name, summary, type, document)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
-            }
-
-            if (string.IsNullOrWhiteSpace(summary))
-            {
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(summary));
-            }
-
             if (string.IsNullOrWhiteSpace(targetName))
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(targetName));
             }
 
-            Name = name;
-            Summary = summary;
             TargetName = targetName;
         }
     }
