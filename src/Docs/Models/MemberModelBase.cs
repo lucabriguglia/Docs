@@ -55,6 +55,13 @@ namespace Docs.Models
                 AddProperty(propertyModel);
             }
 
+            foreach (var constructorInfo in type.GetConstructors())
+            {
+                var constructorInfoSummary = document.GetSummaryFor(constructorInfo, true);
+                var methodModel = new MethodModel("New", constructorInfoSummary);
+                AddMethod(methodModel);
+            }
+
             foreach (var methodInfo in type
                 .GetMethods(BindingFlags.Public | 
                             BindingFlags.Instance | 
@@ -62,7 +69,7 @@ namespace Docs.Models
                             BindingFlags.DeclaredOnly)
                 .Where(m => !m.IsSpecialName))
             {
-                var methodInfoSummary = document.GetSummaryFor(methodInfo);
+                var methodInfoSummary = document.GetSummaryFor(methodInfo, false);
                 var methodModel = new MethodModel(methodInfo.Name, methodInfoSummary);
                 AddMethod(methodModel);
             }
@@ -98,10 +105,7 @@ namespace Docs.Models
                 throw new ArgumentNullException(nameof(method));
             }
 
-            if (Methods.FirstOrDefault(x => x.Name == method.Name) == null)
-            {
-                Methods.Add(method);
-            }
+            Methods.Add(method);
         }
     }
 }

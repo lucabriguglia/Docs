@@ -187,12 +187,13 @@
             <param name="memberInfo"></param>
             <returns></returns>
         </member>
-        <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Reflection.MethodInfo)">
+        <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Reflection.MethodBase,System.Boolean)">
             <summary>
-            Get summary for method info.
+            Get summary for method base.
             </summary>
             <param name="document"></param>
-            <param name="methodInfo"></param>
+            <param name="methodBase"></param>
+            <param name="isConstructor"></param>
             <returns></returns>
         </member>
         <member name="M:Docs.Extensions.XmlExtensions.GetSummaryFor(System.Xml.XmlDocument,System.Reflection.PropertyInfo)">

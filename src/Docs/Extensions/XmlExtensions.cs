@@ -29,31 +29,44 @@ namespace Docs.Extensions
         /// <returns></returns>
         public static string GetSummaryFor(this XmlDocument document, MemberInfo memberInfo)
         {
-            var element = document.GetMemberNode("M", memberInfo.Name);
+            var element = document.GetMemberNode("M", $"{memberInfo.DeclaringType?.FullName}.{memberInfo.Name}");
             return element.GetSummary();
         }
 
         /// <summary>
-        /// Get summary for method info.
+        /// Get summary for method base.
         /// </summary>
         /// <param name="document"></param>
-        /// <param name="methodInfo"></param>
+        /// <param name="methodBase"></param>
+        /// <param name="isConstructor"></param>
         /// <returns></returns>
-        public static string GetSummaryFor(this XmlDocument document, MethodInfo methodInfo)
+        public static string GetSummaryFor(this XmlDocument document, MethodBase methodBase, bool isConstructor)
         {
             var parameters = string.Empty;
 
-            foreach (var parameterInfo in methodInfo.GetParameters())
+            foreach (var parameterInfo in methodBase.GetParameters())
             {
                 if (parameters.Length > 0)
                 {
                     parameters += ",";
                 }
 
-                parameters += parameterInfo.ParameterType.FullName;
+                if (parameterInfo.ParameterType.IsGenericType && parameterInfo.ParameterType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    parameters += $"System.Nullable{{{Nullable.GetUnderlyingType(parameterInfo.ParameterType)}}}";
+                }
+                else
+                {
+                    parameters += parameterInfo.ParameterType.FullName;
+                }
             }
 
-            var name = parameters.Length > 0 ? $"{methodInfo.Name}({parameters})" : methodInfo.Name;
+            var methodName = isConstructor ? "#ctor" : methodBase.Name;
+
+            var name = parameters.Length > 0 
+                ? $"{methodBase.DeclaringType?.FullName}.{methodName}({parameters})" 
+                : $"{methodBase.DeclaringType?.FullName}.{methodName}";
+
             var element = document.GetMemberNode("M", name);
 
             return element.GetSummary();
@@ -67,7 +80,7 @@ namespace Docs.Extensions
         /// <returns></returns>
         public static string GetSummaryFor(this XmlDocument document, PropertyInfo propertyInfo)
         {
-            var element = document.GetMemberNode("P", propertyInfo.Name);
+            var element = document.GetMemberNode("P", $"{propertyInfo.DeclaringType?.FullName}.{propertyInfo.Name}");
             return element.GetSummary();
         }
 
