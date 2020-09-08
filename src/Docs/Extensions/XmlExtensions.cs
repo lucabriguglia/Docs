@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Reflection;
 using System.Xml;
 
 namespace Docs.Extensions
 {
     /// <summary>
-    /// 
+    /// XmlExtensions
     /// </summary>
     public static class XmlExtensions
     {
@@ -54,6 +55,12 @@ namespace Docs.Extensions
                 if (parameterInfo.ParameterType.IsGenericType && parameterInfo.ParameterType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
                     parameters += $"System.Nullable{{{Nullable.GetUnderlyingType(parameterInfo.ParameterType)}}}";
+                }
+                else if (parameterInfo.ParameterType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(parameterInfo.ParameterType))
+                {
+                    var type = parameterInfo.ParameterType.GetGenericArguments()[0];
+                    var iEnumerableName = parameterInfo.ParameterType.Name[..^2];
+                    parameters += $"{parameterInfo.ParameterType.Namespace}.{iEnumerableName}{{{type.FullName}}}";
                 }
                 else
                 {
