@@ -9,10 +9,8 @@ using Docs.ScanTypes;
 
 namespace Docs
 {
-    /// <inheritdoc />
     public class Converter : IConverter
     {
-        /// <inheritdoc />
         public DocumentationModel Convert(ScanResult scanResult)
         {
             var data = new List<ContextModel>();

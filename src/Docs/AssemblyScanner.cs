@@ -10,10 +10,8 @@ using Docs.ScanTypes;
 
 namespace Docs
 {
-    /// <inheritdoc />
     public class AssemblyScanner : IAssemblyScanner
     {
-        /// <inheritdoc />
         public ScanResult Scan(params Assembly[] assemblies)
         {
             var watch = new Stopwatch();

@@ -6,7 +6,6 @@ using Docs.Models;
 
 namespace Docs
 {
-    /// <inheritdoc />
     public class DocumentationService : IDocumentationService
     {
         private readonly string _path;
@@ -14,11 +13,6 @@ namespace Docs
         private readonly IAssemblyScanner _assemblyScanner;
         private readonly IConverter _converter;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="assemblyScanner"></param>
-        /// <param name="converter"></param>
         public DocumentationService(IAssemblyScanner assemblyScanner, IConverter converter)
         {
             _assemblyScanner = assemblyScanner;
@@ -32,7 +26,6 @@ namespace Docs
             }
         }
 
-        /// <inheritdoc />
         public void Generate(params Assembly[] assemblies)
         {
             var scanResult = _assemblyScanner.Scan(assemblies);
@@ -47,7 +40,6 @@ namespace Docs
             File.WriteAllText(fullPath, json);
         }
 
-        /// <inheritdoc />
         public string GetLatestAsJson()
         {
             var latest = Directory.GetFiles(_path).OrderByDescending(f => new FileInfo(f).Name).FirstOrDefault();
@@ -55,7 +47,6 @@ namespace Docs
             return latest != null ? File.ReadAllText(latest) : string.Empty;
         }
 
-        /// <inheritdoc />
         public DocumentationModel GetLatest()
         {
             var json = GetLatestAsJson();
