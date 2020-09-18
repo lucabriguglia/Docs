@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Docs.Models;
+using Docs.ScanTypes;
 
 namespace Docs
 {
@@ -12,6 +12,6 @@ namespace Docs
         /// Scan
         /// </summary>
         /// <param name="assemblies"></param>
-        DocumentationModel Scan(params Assembly[] assemblies);
+        ScanResult Scan(params Assembly[] assemblies);
     }
 }

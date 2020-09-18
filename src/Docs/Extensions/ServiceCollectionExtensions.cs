@@ -21,6 +21,7 @@ namespace Docs.Extensions
 
             services.AddTransient<IDocumentationService, DocumentationService>();
             services.AddTransient<IAssemblyScanner, AssemblyScanner>();
+            services.AddTransient<IConverter, Converter>();
 
             return services;
         }

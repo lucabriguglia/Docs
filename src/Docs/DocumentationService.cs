@@ -12,14 +12,17 @@ namespace Docs
         private readonly string _path;
 
         private readonly IAssemblyScanner _assemblyScanner;
+        private readonly IConverter _converter;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="assemblyScanner"></param>
-        public DocumentationService(IAssemblyScanner assemblyScanner)
+        /// <param name="converter"></param>
+        public DocumentationService(IAssemblyScanner assemblyScanner, IConverter converter)
         {
             _assemblyScanner = assemblyScanner;
+            _converter = converter;
 
             _path = Path.Combine(Directory.GetCurrentDirectory(), "Documentation");
 
@@ -32,8 +35,9 @@ namespace Docs
         /// <inheritdoc />
         public void Generate(params Assembly[] assemblies)
         {
-            var models = _assemblyScanner.Scan(assemblies);
-            var json = JsonSerializer.Serialize(models, new JsonSerializerOptions { WriteIndented = true });
+            var scanResult = _assemblyScanner.Scan(assemblies);
+            var model = _converter.Convert(scanResult);
+            var json = JsonSerializer.Serialize(model, new JsonSerializerOptions { WriteIndented = true });
 
             var count = Directory.GetFiles(_path).Length;
             var fileName = $"documentation.v{count + 1}.json";
