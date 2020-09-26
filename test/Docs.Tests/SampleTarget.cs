@@ -5,7 +5,7 @@ namespace Docs.Tests
     /// <summary>
     /// Description of SampleTarget.
     /// </summary>
-    [DocTarget]
+    [DocTarget("Sample Context")]
     public class SampleTarget
     {
         /// <summary>
