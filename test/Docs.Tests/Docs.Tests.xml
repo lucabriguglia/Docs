@@ -14,6 +14,21 @@
             Description of Name.
             </summary>
         </member>
+        <member name="M:Docs.Tests.SampleRequest.#ctor">
+            <summary>
+            Description of constructor.
+            </summary>
+        </member>
+        <member name="M:Docs.Tests.SampleRequest.#ctor(System.String)">
+            <summary>
+            Description of constructor with parameter.
+            </summary>
+        </member>
+        <member name="M:Docs.Tests.SampleRequest.UpdateName(System.String)">
+            <summary>
+            Description of UpdateName method.
+            </summary>
+        </member>
         <member name="T:Docs.Tests.SampleTarget">
             <summary>
             Description of SampleTarget.
@@ -22,6 +37,21 @@
         <member name="P:Docs.Tests.SampleTarget.Name">
             <summary>
             Description of Name.
+            </summary>
+        </member>
+        <member name="M:Docs.Tests.SampleTarget.#ctor">
+            <summary>
+            Description of constructor.
+            </summary>
+        </member>
+        <member name="M:Docs.Tests.SampleTarget.#ctor(System.String)">
+            <summary>
+            Description of constructor with parameter.
+            </summary>
+        </member>
+        <member name="M:Docs.Tests.SampleTarget.UpdateName(System.String)">
+            <summary>
+            Description of UpdateName method.
             </summary>
         </member>
     </members>
