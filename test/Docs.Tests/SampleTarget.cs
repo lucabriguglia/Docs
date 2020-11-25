@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Docs.Attributes;
 #pragma warning disable 1591
 
@@ -157,5 +158,84 @@ namespace MyBank.Bacs.Domain
         /// The unique identifier of the Payment.
         /// </summary>
         public Guid PaymentId { get; set; }
+    }
+}
+
+namespace MyGamePortal.Catalog.Domain
+{
+    /// <summary>
+    /// A Game.
+    /// </summary>
+    [DocTarget("Catalog")]
+    public class Game
+    {
+        /// <summary>
+        /// The unique identifier of the Game.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// The title of the Game.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// The list of screenshots.
+        /// </summary>
+        public IList<string> Screenshots { get; set; }
+
+        /// <summary>
+        /// Creates a new Game.
+        /// A unique identifier is assigned automatically and the list of screenshots is set to empty by default.
+        /// </summary>
+        public Game(string title)
+        {
+            Id = Guid.NewGuid();
+            Screenshots = new List<string>();
+            Title = title;
+        }
+
+        /// <summary>
+        /// Adds screenshot to the collection.
+        /// </summary>
+        public void AddScreenshot(string screenshot)
+        {
+            Screenshots.Add(screenshot);
+        }
+    }
+}
+
+namespace MyGamePortal.Catalog.Domain
+{
+    /// <summary>
+    /// Creates a new Game.
+    /// </summary>
+    [DocRequest(typeof(Game))]
+    public class CreateGame
+    {
+        /// <summary>
+        /// The title of the new Game.
+        /// </summary>
+        public string Title { get; set; }
+    }
+}
+
+namespace MyGamePortal.Catalog.Domain
+{
+    /// <summary>
+    /// Add a screenshot to an existing Game.
+    /// </summary>
+    [DocRequest(typeof(Game))]
+    public class AddScreenshot
+    {
+        /// <summary>
+        /// The unique identifier of the Game.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// The path of the new screenshot.
+        /// </summary>
+        public string Screenshot { get; set; }
     }
 }
