@@ -1,4 +1,5 @@
-﻿using Docs.Attributes;
+﻿using System;
+using Docs.Attributes;
 
 namespace Docs.Tests
 {
@@ -34,6 +35,42 @@ namespace Docs.Tests
         public void UpdateName(string name)
         {
             Name = name;
+        }
+    }
+}
+
+namespace MyInsuranceCompany.Domain.Policies
+{
+    /// <summary>
+    /// Description of SetLimits.
+    /// </summary>
+    [DocRequest(typeof(Policy))]
+    public class SetLimits
+    {
+        /// <summary>
+        /// Description of PolicyId.
+        /// </summary>
+        public Guid PolicyId { get; set; }
+
+        /// <summary>
+        /// Description of NumberOfClaims.
+        /// </summary>
+        public int NumberOfClaims { get; set; }
+
+        /// <summary>
+        /// Description of constructor.
+        /// </summary>
+        public SetLimits()
+        {
+        }
+
+        /// <summary>
+        /// Description of constructor with parameter.
+        /// </summary>
+        public SetLimits(Guid policyId, int numberOfClaims)
+        {
+            PolicyId = policyId;
+            NumberOfClaims = numberOfClaims;
         }
     }
 }
