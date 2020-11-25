@@ -133,7 +133,7 @@ namespace MyBank.Bacs.Domain
 namespace MyBank.Bacs.Domain
 {
     /// <summary>
-    /// Create a Bacs Payment.
+    /// Creates a Bacs Payment.
     /// </summary>
     [DocRequest(typeof(Payment))]
     public class CreatePayment
